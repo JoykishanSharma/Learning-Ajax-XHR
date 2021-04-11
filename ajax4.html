@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 4 - AJAX & PHP Forms</title>
+</head>
+
+<body>
+    <button id="button">Get Name</button>
+    <hr>
+    <h1>GET FORM</h1>
+    <form action="process.php" method="GET">
+        <input type="text" name="name">
+        <input type="submit" value="submit">
+    </form>
+
+    <h1>AJAX GET FORM</h1>
+    <form id="getForm">
+        <input type="text" name="name" id="name1">
+        <input type="submit" value="submit">
+    </form>
+
+    <h1>POST FORM</h1>
+    <form action="process.php" method="POST">
+        <input type="text" name="name">
+        <input type="submit" value="submit">
+    </form>
+
+    <h1>AJAX POST FORM</h1>
+    <form id="postForm">
+        <input type="text" name="name" id="name2">
+        <input type="submit" value="submit">
+    </form>
+
+    <script>
+        document.getElementById("button").addEventListener("click", getNames);
+        document.getElementById("getForm").addEventListener("submit", getNames);
+        document.getElementById("postForm").addEventListener("submit", postNames);
+
+        function getNames(e) {
+            e.preventDefault();
+
+            var name = document.getElementById("name1").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "process.php?name=" + name, true);
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    console.log(this.responseText);
+                }
+            }
+
+            xhr.onerror = function () {
+                console.log("Error Occurred!");
+            }
+
+            xhr.send();
+        }
+
+        function postNames(e) {
+            e.preventDefault();
+
+            var name = document.getElementById("name2").value;
+            var params = "name=" + name;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "process.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    console.log(this.responseText);
+                }
+            }
+
+            xhr.onerror = function () {
+                console.log("Error Occurred!");
+            }
+
+            xhr.send(params);
+        }
+    </script>
+</body>
+
+</html>
